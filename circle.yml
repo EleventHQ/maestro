@@ -1,0 +1,24 @@
+dependencies:
+  override:
+    - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
+    - sudo apt-get update
+    - sudo apt-get install libstdc++-4.9-dev
+    - npm install -g coffee claudia
+    - npm install
+
+deployment:
+  production:
+    branch: master
+    commands:
+      - claudia update
+
+machine:
+  node:
+    version: 4.3.2
+
+test:
+  override:
+    - /home/ubuntu/nvm/v0.10.33/bin/coffee -c *.coffee
+    # .gitignore prevents the *.js files from being copied on build
+    - rm *.coffee .gitignore
+

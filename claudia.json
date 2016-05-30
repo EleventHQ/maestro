@@ -1,0 +1,11 @@
+{
+  "lambda": {
+    "role": "maestro-executor",
+    "name": "maestro",
+    "region": "us-east-1"
+  },
+  "api": {
+    "id": "zijxeebtll",
+    "module": "app"
+  }
+}

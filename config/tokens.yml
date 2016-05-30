@@ -1,0 +1,10 @@
+# To add another token, you can run `/encrypt the things` in Slack
+# See encryptable.coffee for some more information.
+# If Ellie catches you committing unecrypted secrets into git,
+# fire and brimstone will rain from the sky
+key: alias/production/maestro
+tokens:
+  circle: "CiCiv/GgkHpNjGkrY6rPcDA2f6GDdsirX+5XjSUnwokTAhKwAQEBAgB4or/xoJB6TYxpK2Oqz3AwNn+hg3bIq1/uV40lJ8KJEwIAAACHMIGEBgkqhkiG9w0BBwagdzB1AgEAMHAGCSqGSIb3DQEHATAeBglghkgBZQMEAS4wEQQM57EeOWd7q5bFCYUGAgEQgEOdQvdA+NYt50jqeoLgl6T4ghIj4PXx60suzcfB5gJJb2/FXRjJGCjSjfZERTSrWDf+OfL4OZCY92rTOhICEaSMt8GK"
+  github: "CiCiv/GgkHpNjGkrY6rPcDA2f6GDdsirX+5XjSUnwokTAhKwAQEBAgB4or/xoJB6TYxpK2Oqz3AwNn+hg3bIq1/uV40lJ8KJEwIAAACHMIGEBgkqhkiG9w0BBwagdzB1AgEAMHAGCSqGSIb3DQEHATAeBglghkgBZQMEAS4wEQQMJhf4UGnBJdE1qK2LAgEQgEPj7QKpCJcmGjepLA9u7uXEuXVo4XPaVSmQBQHLiI6QuktDQlMnqRSqPeUgloCh8SiWuDEoXr/plPa420DK7qYEVVp/"
+  # Lacks https://, on purpose
+  slack: "CiCiv/GgkHpNjGkrY6rPcDA2f6GDdsirX+5XjSUnwokTAhLQAQEBAgB4or/xoJB6TYxpK2Oqz3AwNn+hg3bIq1/uV40lJ8KJEwIAAACnMIGkBgkqhkiG9w0BBwaggZYwgZMCAQAwgY0GCSqGSIb3DQEHATAeBglghkgBZQMEAS4wEQQM/Upv7m51S0YgMPUtAgEQgGDV2sIb9syIJvYRGHkyyLK06lGn7c8JGQh3pLbjmEgmByLTpiYSEu/ByJDiHKrF5/4+LArOdPnu6fzssMxOhHPO0aHGMd78R6XKVFiomE6hA6S4RrlH/Su3UPGlArNV9S0="
