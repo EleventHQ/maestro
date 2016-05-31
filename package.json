@@ -1,6 +1,6 @@
 {
   "name": "maestro",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Jarvis for Elevent. AWS API Gateway -> AWS Lambda via NodeJS",
   "main": "index.js",
   "scripts": {
@@ -11,6 +11,7 @@
   "dependencies": {
     "aws-sdk": "2.3.0",
     "claudia-api-builder": "^1.1.0",
+    "github": "0.2.4",
     "promise": "7.1.1",
     "yamljs" : "0.2.7"
   },

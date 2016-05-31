@@ -1,0 +1,39 @@
+api:
+  debug: false
+  headers:
+    user-agent: eleventhq/maestro
+  host: api.github.com
+  protocol: https
+  timeout: 5000
+  version: 3.0.0
+
+repo:
+  description: "Middleman-backed, statically hosted static service."
+  homepage: "https://eleventhq.com/{name}"
+  org: EleventHQ
+  private: true
+  has_downloads: false
+  has_issues: true
+  has_wiki: false
+
+source:
+  username: Elliebot
+  repository: https://github.com/eleventhq/base.git
+  options:
+    fetchOpts:
+      credentials: null
+
+teams:
+  - id: 2022922
+    name: devops
+    permissions: admin
+  - id: 2036150
+    name: engineering
+    permission: admin
+  - id: 2035828
+    name: operations
+    permission: admin
+  - id: 2022918
+    name: product
+    permissions: admin
+  

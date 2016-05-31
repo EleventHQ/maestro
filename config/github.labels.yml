@@ -1,0 +1,61 @@
+# Labels
+# Guidelines:
+# * Please follow the lowercase convention
+# * Please adhere to Material Design Color Schemes:
+#   https://www.google.com/design/spec/style/color.html#color-color-schemes
+# * Please choose from either the 200 or 700 weight, above ^
+# * Please keep this list alphabetical
+#
+# If you change these, a Lambda function will pick the changes up on deploy and re-apply to all existing repositories
+# If you remove one, it WILL BE DELETED across all repositories.
+#
+# TODO: Discourage adding labels manually via Slackbot or Lambda
+additions:
+  color: 388E3C
+  entries:
+    - feature
+environment:
+  color: BCAAA4
+  entries:
+    - staging
+    - test
+feedback:
+  color: 455A64
+  entries:
+    - discussion
+    - rfc
+    - question
+inactive:
+  color: 616161
+  entries:
+    - duplicate
+    - invalid
+    - on hold
+    - wontfix
+mindless:
+  color: 90CAF9
+  entries:
+    - chore
+    - legal
+pending:
+  color: FBC02D
+  entries:
+    - in progress
+    - watchlist
+platform:
+  color: 80CBC4
+  entries:
+    - node
+    - rails
+product:
+  color: 7B1FA2
+  entries:
+    - copy
+    - design
+    - ux
+problems:
+  color: C62828
+  entries:
+    - bug
+    - security
+    - production

@@ -1,6 +1,7 @@
 AWS     = require 'aws-sdk'
-AWS.config.update({region:'us-east-1'})
 YAML    = require 'yamljs'
+
+AWS.config.update({region:'us-east-1'})
 
 class Tokenable
   constructor: (@name)->
@@ -14,9 +15,11 @@ class Tokenable
       CiphertextBlob: new Buffer(@encryptedPlaintext(), 'base64')
 
   then: (callback)->
-    new AWS.KMS().decrypt @params(), (err, data)->
-      console.log err, err.stack if err
-      callback data['Plaintext'].toString('ascii')
+    new Promise (fulfill, reject)=>
+      new AWS.KMS().decrypt @params(), (err, data)->
+        console.log err, err.stack and reject() if err
+        callback data['Plaintext'].toString('ascii')
+        fulfill()
 
 module.exports = Tokenable
 
