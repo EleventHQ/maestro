@@ -56,7 +56,10 @@ class Labelize
     new TokenService('github').
       then(@authenticate).
       then(@deleteDefaultLabelsNotInOurList).
-      then(@createLabels)
+      then(@createLabels).
+      then => new Promise (fulfill, reject)=>
+        console.log "Applied labels to #{@name()}."
+        fulfill()
 
   getLabels: (callback)=>
     return callback(@githubLabels) if @githubLabels
