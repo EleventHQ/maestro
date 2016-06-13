@@ -24,15 +24,16 @@ source:
       credentials: null
 
 teams:
+  # Permissions is one of: admin, write, read
   - id: 2022922
     name: devops
     permissions: admin
   - id: 2036150
     name: engineering
-    permission: admin
+    permissions: admin
   - id: 2035828
     name: operations
-    permission: admin
+    permissions: admin
   - id: 2022918
     name: product
     permissions: admin

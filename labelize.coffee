@@ -67,6 +67,7 @@ class Labelize
     params =
       user: @config.repo.org
       repo: @name()
+      per_page: 100 # 100 is max
 
     @github.issues.getLabels params, (err, labels)=>
       callback(@githubLabels = labels)

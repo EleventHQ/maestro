@@ -1,3 +1,4 @@
+CircleCI      = require './circle.js'
 GitHub        = require 'github'
 Labelize      = require './labelize.js'
 Promise       = require 'promise'
@@ -27,7 +28,27 @@ class GitHubEventHandler
       then(@openPullRequest).
       then(@automaticallyDeleteBranchesForMergedPullRequests).
       then(@removeInProgressLabelFromMergedPullRequests).
-      then(@labelizeCreatedRepositories)
+      then(@labelizeCreatedRepositories).
+      then(@followCreatedRepositoriesOnCircle).
+      then(@addDefaultTeams)
+
+  addDefaultTeams: =>
+    @_watch 'repository', action: 'created', (fulfill)=>
+      Promise.all @config.teams.map (team)=> new Promise (fulfill, reject)=>
+        params =
+          id: team.id
+          org: @config.repo.org
+          repo: @request.body.repository.name
+          permission: team.permission
+
+        @github.orgs.addTeamRepo params, (err, result)=>
+          console.log err if err
+          console.log result
+          fulfill()
+
+  followCreatedRepositoriesOnCircle: =>
+    @_watch 'repository', action: 'created', (fulfill)=>
+      new CircleCI(@request.body.repository.name).execute().then(fulfill)
 
   labelizeCreatedRepositories: =>
     @_watch 'repository', action: 'created', (fulfill)=>

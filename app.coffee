@@ -4,6 +4,7 @@ FS                  = require 'fs'
 Encryptable         = require './encryptable.js'
 GitHubEventHandler  = require './github_event_handler.js'
 Labelize            = require './labelize.js'
+Repository          = require './repository.js'
 
 module.exports = api
 
@@ -13,5 +14,6 @@ api.post '/echo',           (request)-> request
 api.post '/encrypt',        (request)-> new Encryptable(request).execute()
 api.post '/github/events',  (request)-> new GitHubEventHandler(request).execute()
 api.post '/labelize',       (request)-> new Labelize(request).execute()
+api.post '/repository',     (request)-> new Repository(request).execute()
 api.get  '/version',                 -> JSON.parse(FS.readFileSync('./package.json')).version
 
