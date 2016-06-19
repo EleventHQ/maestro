@@ -27,14 +27,14 @@ teams:
   # Permissions is one of: admin, write, read
   - id: 2022922
     name: devops
-    permissions: admin
+    permission: admin
   - id: 2036150
     name: engineering
-    permissions: admin
+    permission: admin
   - id: 2035828
     name: operations
-    permissions: admin
+    permission: admin
   - id: 2022918
     name: product
-    permissions: admin
+    permission: admin
   
