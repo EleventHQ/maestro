@@ -30,7 +30,8 @@ class GitHubEventHandler
       then(@removeInProgressLabelFromMergedPullRequests).
       then(@labelizeCreatedRepositories).
       then(@followCreatedRepositoriesOnCircle).
-      then(@addDefaultTeams)
+      then(@addDefaultTeams).
+      then(@mergeSuccessfulBuildsWithMergeFlag)
 
   addDefaultTeams: =>
     @_watch 'repository', action: 'created', (fulfill)=>
@@ -53,6 +54,34 @@ class GitHubEventHandler
   labelizeCreatedRepositories: =>
     @_watch 'repository', action: 'created', (fulfill)=>
       new Labelize(post: { text: @request.body.repository.name }).execute().then(fulfill)
+
+  # If your commit message includes [merge], then Ellie will merge your pull request automatically,
+  # once your status checks pass
+  mergeSuccessfulBuildsWithMergeFlag: =>
+    # TODO: Will need more cleverness to support multiple status checks
+    @_watch 'status', context: 'ci/circleci', state: 'success', (fulfill)=>
+      return fulfill() unless @request.body.commit.commit.message.indexOf('[merge]') > -1
+
+      Promise.all @request.body.branches.map (branch)=> new Promise (fulfill, reject)=>
+        console?.log "Branch: #{JSON.stringify branch}"
+        payload =
+          user: @request.body.repository.owner.login
+          repo: @request.body.repository.name
+          filter: branch.name
+        @github.pullRequests.getAll payload, (err, pullRequests)=>
+          console?.log "err: #{err}" if err
+          console?.log "pullRequests: #{JSON.stringify pullRequests}"
+          Promise.all pullRequests.map (pullRequest)=> new Promise (fulfill, reject)=>
+            payload =
+              user: @request.body.repository.owner.login
+              repo: @request.body.repository.name
+              number: pullRequest.number
+              sha: @request.body.commit.sha # must match succesful status check
+            console?.log "Payload: #{JSON.stringify payload}"
+            @github.pullRequests.merge payload, (err, response)=> fulfill()
+          , fulfill
+
+      , fulfill
 
   # Automatically open a pull request when we push a new branch.
   # * Automatically opens a pull request when a new branch is pushed.
