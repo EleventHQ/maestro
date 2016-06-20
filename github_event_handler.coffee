@@ -31,7 +31,8 @@ class GitHubEventHandler
       then(@labelizeCreatedRepositories).
       then(@followCreatedRepositoriesOnCircle).
       then(@addDefaultTeams).
-      then(@mergeSuccessfulBuildsWithMergeFlag)
+      then(@mergeSuccessfulBuildsWithMergeFlag).
+      then(@propagateStyleGuideChangesToOtherRepos)
 
   addDefaultTeams: =>
     @_watch 'repository', action: 'created', (fulfill)=>
@@ -189,6 +190,41 @@ class GitHubEventHandler
                 fulfill()
                 created()
         .then => console.log 'Did all the things'
+
+  propagateStyleGuideChangesToOtherRepos: =>
+    @_watch 'push', ref: 'refs/heads/master', (fulfill)=>
+      return fulfill() unless @request.body.repository.name == 'style-guide'
+
+      changedFiles = []
+
+      @request.body.commits.forEach (commit)=>
+        ['added', 'removed', 'modified'].forEach (event)=>
+          commit[event].forEach (file)=>
+            if file.split('/')[0] == 'shared'
+              unless changedFiles.indexOf(file) > -1
+                changedFiles.push file
+      
+      Promise.all changedFiles.map (changedFile)=> new Promise (fulfill, reject)=>
+        # Since we're always copying master from style-guide, this works great
+        @_getContent changedFile, (err, changedFileContents)=>
+          @github.repos.getAll (repositories)=>
+            Promise.all repositories.map (repository)=> new Promise (fulfill, reject)=>
+              return fulfill() if repository.name == 'style-guide' # don't re-push, oh no
+              payload =
+                user: @request.body.repository.owner.login
+                repo: @request.body.repository.name
+                path: changedFile
+                message: "Adds #{changedFile.split('/')[1]} from @EleventHQ/style-guide\n\n[merge]"
+                content: changedFileContents
+                branch: 'chore-propagates-style-guide'
+                committer: commit.committer
+              console?.log payload
+              @github.repos.createFile payload, (err, response)=> fulfill()
+            .then(fulfill)
+
+      , (fulfill)=>
+
+        
 
   removeInProgressLabelFromMergedPullRequests: =>
     @_watchForMergedPullRequests (fulfill)=>
